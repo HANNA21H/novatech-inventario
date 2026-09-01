@@ -5,6 +5,7 @@ let productId = 1;
 const productForm = document.getElementById("productForm");
 const productTableBody = document.getElementById("productTableBody");
 const emptyMessage = document.getElementById("emptyMessage");
+const productCount = document.getElementById("productCount");
 
 productForm.addEventListener("submit", function (event) {
 
@@ -51,6 +52,8 @@ productForm.addEventListener("submit", function (event) {
 function renderProducts() {
 
     productTableBody.innerHTML = "";
+
+    productCount.textContent = `Total de productos: ${products.length}`;
 
     if (products.length === 0) {
 
