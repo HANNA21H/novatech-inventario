@@ -8,67 +8,64 @@ const emptyMessage = document.getElementById("emptyMessage");
 const productCount = document.getElementById("productCount");
 
 productForm.addEventListener("submit", function (event) {
+  event.preventDefault();
 
-    event.preventDefault();
+  const name = document.getElementById("name").value.trim();
+  const price = parseFloat(
+    document.getElementById("price").value.replace(",", "."),
+  );
+  const category = document.getElementById("category").value.trim();
+  const stock = parseInt(document.getElementById("stock").value);
 
-    const name = document.getElementById("name").value.trim();
-    const price = parseFloat(document.getElementById("price").value);
-    const category = document.getElementById("category").value.trim();
-    const stock = parseInt(document.getElementById("stock").value);
+  if (!name || !category) {
+    alert("El nombre y la categoría son obligatorios.");
+    return;
+  }
 
-    if (!name || !category) {
-        alert("El nombre y la categoría son obligatorios.");
-        return;
-    }
+  if (isNaN(price) || isNaN(stock)) {
+    alert("El precio y el stock son obligatorios.");
+    return;
+  }
 
-    if (isNaN(price) || isNaN(stock)) {
-        alert("El precio y el stock son obligatorios.");
-        return;
-    }
+  if (price < 0 || stock < 0) {
+    alert("El precio y el stock no pueden ser negativos.");
+    return;
+  }
 
-    if (price < 0 || stock < 0) {
-        alert("El precio y el stock no pueden ser negativos.");
-        return;
-    }
+  const product = {
+    id: productId,
+    name: name,
+    price: price,
+    category: category,
+    stock: stock,
+  };
 
-    const product = {
-        id: productId,
-        name: name,
-        price: price,
-        category: category,
-        stock: stock
-    };
+  products.push(product);
 
-    products.push(product);
+  productId++;
 
-    productId++;
+  productForm.reset();
 
-    productForm.reset();
-
-    renderProducts();
+  renderProducts();
 });
 
-
 function renderProducts() {
+  productTableBody.innerHTML = "";
 
-    productTableBody.innerHTML = "";
+  productCount.textContent = `Total de productos: ${products.length}`;
 
-    productCount.textContent = `Total de productos: ${products.length}`;
+  if (products.length === 0) {
+    emptyMessage.style.display = "block";
 
-    if (products.length === 0) {
+    return;
+  }
 
-        emptyMessage.style.display = "block";
+  emptyMessage.style.display = "none";
 
-        return;
-    }
+  products.forEach(function (product) {
+    const row = document.createElement("tr");
 
-    emptyMessage.style.display = "none";
-
-    products.forEach(function (product) {
-
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
+    row.innerHTML = `
             <td>${product.id}</td>
             <td>${product.name}</td>
             <td>$${product.price.toFixed(2)}</td>
@@ -93,116 +90,99 @@ function renderProducts() {
             </td>
         `;
 
-        productTableBody.appendChild(row);
-    });
+    productTableBody.appendChild(row);
+  });
 }
-
 
 function editProduct(id) {
+  const product = products.find(function (product) {
+    return product.id === id;
+  });
 
-    const product = products.find(function (product) {
-        return product.id === id;
-    });
+  if (!product) {
+    alert("Producto no encontrado.");
+    return;
+  }
 
-    if (!product) {
-        alert("Producto no encontrado.");
-        return;
-    }
+  const newName = prompt("Nombre del producto:", product.name);
 
-    const newName = prompt(
-        "Nombre del producto:",
-        product.name
-    );
+  if (newName === null) {
+    return;
+  }
 
-    if (newName === null) {
-        return;
-    }
+  const newPrice = prompt("Precio:", product.price);
 
-    const newPrice = prompt(
-        "Precio:",
-        product.price
-    );
+  if (newPrice === null) {
+    return;
+  }
 
-    if (newPrice === null) {
-        return;
-    }
+  const newCategory = prompt("Categoría:", product.category);
 
-    const newCategory = prompt(
-        "Categoría:",
-        product.category
-    );
+  if (newCategory === null) {
+    return;
+  }
 
-    if (newCategory === null) {
-        return;
-    }
+  const newStock = prompt("Stock:", product.stock);
 
-    const newStock = prompt(
-        "Stock:",
-        product.stock
-    );
+  if (newStock === null) {
+    return;
+  }
 
-    if (newStock === null) {
-        return;
-    }
+  const name = newName.trim();
+  const price = parseFloat(newPrice.replace(",", "."));
+  const category = newCategory.trim();
+  const stock = parseInt(newStock);
 
-    const name = newName.trim();
-    const price = parseFloat(newPrice);
-    const category = newCategory.trim();
-    const stock = parseInt(newStock);
+  if (!name || !category) {
+    alert("El nombre y la categoría son obligatorios.");
+    return;
+  }
 
-    if (!name || !category) {
-        alert("El nombre y la categoría son obligatorios.");
-        return;
-    }
+  if (isNaN(price) || isNaN(stock)) {
+    alert("El precio y el stock deben ser valores numéricos.");
+    return;
+  }
 
-    if (isNaN(price) || isNaN(stock)) {
-        alert("El precio y el stock deben ser valores numéricos.");
-        return;
-    }
+  if (price < 0 || stock < 0) {
+    alert("El precio y el stock no pueden ser negativos.");
+    return;
+  }
 
-    if (price < 0 || stock < 0) {
-        alert("El precio y el stock no pueden ser negativos.");
-        return;
-    }
+  product.name = name;
+  product.price = price;
+  product.category = category;
+  product.stock = stock;
 
-    product.name = name;
-    product.price = price;
-    product.category = category;
-    product.stock = stock;
+  renderProducts();
 
-    renderProducts();
-
-    alert("Producto actualizado correctamente.");
+  alert("Producto actualizado correctamente.");
 }
-
 
 function deleteProduct(id) {
+  const product = products.find(function (product) {
+    return product.id === id;
+  });
 
-    const product = products.find(function (product) {
-        return product.id === id;
-    });
+  if (!product) {
+    alert("Producto no encontrado.");
+    return;
+  }
 
-    if (!product) {
-        alert("Producto no encontrado.");
-        return;
-    }
+  const confirmed = confirm(
+    `¿Está seguro de eliminar el producto "${product.name}"?`,
+  );
 
-    const confirmed = confirm(
-        `¿Está seguro de eliminar el producto "${product.name}"?`
-    );
+  if (!confirmed) {
+    return;
+  }
 
-    if (!confirmed) {
-        return;
-    }
+  products = products.filter(function (product) {
+    return product.id !== id;
+  });
 
-    products = products.filter(function (product) {
-        return product.id !== id;
-    });
+  renderProducts();
 
-    renderProducts();
-
-    alert("Producto eliminado correctamente.");
+  alert("Producto eliminado correctamente.");
 }
-
 
 renderProducts();
