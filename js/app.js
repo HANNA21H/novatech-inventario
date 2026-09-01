@@ -5,15 +5,31 @@ let productId = 1;
 const productForm = document.getElementById("productForm");
 const productTableBody = document.getElementById("productTableBody");
 const emptyMessage = document.getElementById("emptyMessage");
+const productCount = document.getElementById("productCount");
 
 productForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
-    const name = document.getElementById("name").value;
+    const name = document.getElementById("name").value.trim();
     const price = parseFloat(document.getElementById("price").value);
-    const category = document.getElementById("category").value;
+    const category = document.getElementById("category").value.trim();
     const stock = parseInt(document.getElementById("stock").value);
+
+    if (!name || !category) {
+        alert("El nombre y la categoría son obligatorios.");
+        return;
+    }
+
+    if (isNaN(price) || isNaN(stock)) {
+        alert("El precio y el stock son obligatorios.");
+        return;
+    }
+
+    if (price < 0 || stock < 0) {
+        alert("El precio y el stock no pueden ser negativos.");
+        return;
+    }
 
     const product = {
         id: productId,
@@ -36,6 +52,8 @@ productForm.addEventListener("submit", function (event) {
 function renderProducts() {
 
     productTableBody.innerHTML = "";
+
+    productCount.textContent = `Total de productos: ${products.length}`;
 
     if (products.length === 0) {
 
@@ -87,16 +105,23 @@ function editProduct(id) {
     });
 
     if (!product) {
+        alert("Producto no encontrado.");
         return;
     }
 
-    const newName = prompt("Nombre del producto:", product.name);
+    const newName = prompt(
+        "Nombre del producto:",
+        product.name
+    );
 
     if (newName === null) {
         return;
     }
 
-    const newPrice = prompt("Precio:", product.price);
+    const newPrice = prompt(
+        "Precio:",
+        product.price
+    );
 
     if (newPrice === null) {
         return;
@@ -120,19 +145,50 @@ function editProduct(id) {
         return;
     }
 
-    product.name = newName;
-    product.price = parseFloat(newPrice);
-    product.category = newCategory;
-    product.stock = parseInt(newStock);
+    const name = newName.trim();
+    const price = parseFloat(newPrice);
+    const category = newCategory.trim();
+    const stock = parseInt(newStock);
+
+    if (!name || !category) {
+        alert("El nombre y la categoría son obligatorios.");
+        return;
+    }
+
+    if (isNaN(price) || isNaN(stock)) {
+        alert("El precio y el stock deben ser valores numéricos.");
+        return;
+    }
+
+    if (price < 0 || stock < 0) {
+        alert("El precio y el stock no pueden ser negativos.");
+        return;
+    }
+
+    product.name = name;
+    product.price = price;
+    product.category = category;
+    product.stock = stock;
 
     renderProducts();
+
+    alert("Producto actualizado correctamente.");
 }
 
 
 function deleteProduct(id) {
 
+    const product = products.find(function (product) {
+        return product.id === id;
+    });
+
+    if (!product) {
+        alert("Producto no encontrado.");
+        return;
+    }
+
     const confirmed = confirm(
-        "¿Está seguro de eliminar este producto?"
+        `¿Está seguro de eliminar el producto "${product.name}"?`
     );
 
     if (!confirmed) {
@@ -144,6 +200,8 @@ function deleteProduct(id) {
     });
 
     renderProducts();
+
+    alert("Producto eliminado correctamente.");
 }
 
 
