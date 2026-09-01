@@ -105,16 +105,23 @@ function editProduct(id) {
     });
 
     if (!product) {
+        alert("Producto no encontrado.");
         return;
     }
 
-    const newName = prompt("Nombre del producto:", product.name);
+    const newName = prompt(
+        "Nombre del producto:",
+        product.name
+    );
 
     if (newName === null) {
         return;
     }
 
-    const newPrice = prompt("Precio:", product.price);
+    const newPrice = prompt(
+        "Precio:",
+        product.price
+    );
 
     if (newPrice === null) {
         return;
@@ -138,12 +145,34 @@ function editProduct(id) {
         return;
     }
 
-    product.name = newName;
-    product.price = parseFloat(newPrice);
-    product.category = newCategory;
-    product.stock = parseInt(newStock);
+    const name = newName.trim();
+    const price = parseFloat(newPrice);
+    const category = newCategory.trim();
+    const stock = parseInt(newStock);
+
+    if (!name || !category) {
+        alert("El nombre y la categoría son obligatorios.");
+        return;
+    }
+
+    if (isNaN(price) || isNaN(stock)) {
+        alert("El precio y el stock deben ser valores numéricos.");
+        return;
+    }
+
+    if (price < 0 || stock < 0) {
+        alert("El precio y el stock no pueden ser negativos.");
+        return;
+    }
+
+    product.name = name;
+    product.price = price;
+    product.category = category;
+    product.stock = stock;
 
     renderProducts();
+
+    alert("Producto actualizado correctamente.");
 }
 
 
