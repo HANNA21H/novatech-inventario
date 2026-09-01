@@ -178,8 +178,17 @@ function editProduct(id) {
 
 function deleteProduct(id) {
 
+    const product = products.find(function (product) {
+        return product.id === id;
+    });
+
+    if (!product) {
+        alert("Producto no encontrado.");
+        return;
+    }
+
     const confirmed = confirm(
-        "¿Está seguro de eliminar este producto?"
+        `¿Está seguro de eliminar el producto "${product.name}"?`
     );
 
     if (!confirmed) {
@@ -191,6 +200,8 @@ function deleteProduct(id) {
     });
 
     renderProducts();
+
+    alert("Producto eliminado correctamente.");
 }
 
 
