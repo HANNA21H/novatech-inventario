@@ -10,10 +10,25 @@ productForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
-    const name = document.getElementById("name").value;
+    const name = document.getElementById("name").value.trim();
     const price = parseFloat(document.getElementById("price").value);
-    const category = document.getElementById("category").value;
+    const category = document.getElementById("category").value.trim();
     const stock = parseInt(document.getElementById("stock").value);
+
+    if (!name || !category) {
+        alert("El nombre y la categoría son obligatorios.");
+        return;
+    }
+
+    if (isNaN(price) || isNaN(stock)) {
+        alert("El precio y el stock son obligatorios.");
+        return;
+    }
+
+    if (price < 0 || stock < 0) {
+        alert("El precio y el stock no pueden ser negativos.");
+        return;
+    }
 
     const product = {
         id: productId,
