@@ -73,7 +73,7 @@ El proyecto utiliza Git Flow.
 
 **v1.0.0**
 
-Sistema de inventario listo para pruebas
+Sistema de inventario listo para las pruebas.
 ## Equipo
 
 -Hannah Sarai Parra Cartagena.
