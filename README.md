@@ -73,14 +73,15 @@ El proyecto utiliza Git Flow.
 
 **v1.0.0**
 
-Sistema de inventario en desarrollo activo.
-
+Sistema de inventario listo para las pruebas.
 ## Equipo
 
--Hannah Sarai Parra Cartagena
--Juan Esteban Pérez Orozco
--Samuel Abril Prada
--Juan Pablo Ramírez Betancur
+-Hannah Sarai Parra Cartagena.
+-Juan Esteban Pérez Orozco.
+-Juan Pablo Ramirez Betancur.
+-Samuel Abril Prada.
+
+
 ## Estado
 
 Release 1.0.0 preparado para producción.
