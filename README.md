@@ -73,12 +73,14 @@ El proyecto utiliza Git Flow.
 
 **v1.0.0**
 
-Primera versión funcional del sistema de inventario.
+Sistema de inventario en desarrollo activo.
 
 ## Equipo
 
 -Hannah Sarai Parra Cartagena
 -Juan Esteban Pérez Orozco
+-Samuel Abril Prada
+-Juan Pablo Ramírez Betancur
 ## Estado
 
 Release 1.0.0 preparado para producción.
